@@ -9,25 +9,26 @@ app.use(express.json())
 app.use(routes)
 
 // CORS
-app.use((req,res,next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", 'GET,PUT,POST,DELETE');
-    app.use(cors());
-    next();
+app.use((_req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+  app.use(cors())
+  next()
 })
 
 // notFound
-app.use((req, res, next) => {
-    const error = new Error('Not Found')
-    error.status = 404
-    next(error)
-})
+app.use((_req, _res, next) => {
+  const error = new Error('Not Found')
 
+  error.status = 404
+  next(error)
+})
 
 // catch all
-app.use((error,req,res,next) => {
-    res.status(error.status || 500)
-    res.json({ error: error.message })
+app.use((error, _req, res) => {
+  res.status(error.status || 500)
+  res.json({ error: error.message })
 })
 
-app.listen(8080, () =>  console.log('Server is running'))
+// eslint-disable-next-line no-console
+app.listen(8080, () => console.log('Server is running'))

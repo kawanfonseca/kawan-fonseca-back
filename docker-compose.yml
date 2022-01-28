@@ -1,0 +1,29 @@
+version: '3.1'
+
+services:     
+  app:
+    build: .
+    container_name: app
+    depends_on:
+      - db                
+    ports: 
+        - 8080:8080          
+    environment:
+      - DB_HOST=mydb
+      - DB_USERNAME=root
+      - DB_PASSWORD=admin
+      - DB_DATABASE=knex_test
+      - DB_PORT=3306
+      - WAIT_HOSTS=mydb:3306
+    volumes:
+      - .:/src/         
+  db:
+    container_name: mydb
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_DATABASE=knex_test
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./src/database:/app/api

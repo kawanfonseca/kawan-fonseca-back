@@ -1,25 +1,22 @@
-
 module.exports = {
   development: {
-    client: "pg",
+    client: 'mysql',
     connection: {
-      // filename: './dev.sqlite3'
-      database: "knex_test",
-      user: "postgres",
-      password: "admin",
+      host: 'db',
+      user: 'root',
+      database: 'knex_test',
+      password: 'admin',
+    },
+    pool: {
+      min: 2,
+      max: 10,
     },
     migrations: {
-      tableName: "knex_migrations",
+      tableName: 'knex_migrations',
       directory: `${__dirname}/src/database/migrations`,
     },
-    seeds: { 
+    seeds: {
       directory: `${__dirname}/src/database/seeds`,
-    }
+    },
   },
-  onUpdateTrigger: table => `
-  CREATE TRIGGER ${table}_updated_at
-  BEFORE UPDATE ON ${table}
-  FOR EACH ROW
-  EXECUTE PROCEDURE on_update_timestamp();
-  `
-};
+}
